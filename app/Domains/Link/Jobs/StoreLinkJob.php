@@ -3,10 +3,9 @@
 namespace App\Domains\Link\Jobs;
 
 use App\Data\Models\Link;
-use App\Domains\Api\Jobs\SuccessResponseJob;
 use Lucid\Units\Job;
 
-class SaveLinkJob extends Job
+class StoreLinkJob extends Job
 {
     /**
      * @var string

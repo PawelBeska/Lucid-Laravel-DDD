@@ -3,11 +3,11 @@
 namespace Tests\Unit\Domains\Link\Jobs;
 
 use Tests\TestCase;
-use App\Domains\Link\Jobs\SaveLinkJob;
+use App\Domains\Link\Jobs\StoreLinkJob;
 
-class SaveLinkJobTest extends TestCase
+class StoreLinkJobTest extends TestCase
 {
-    public function test_save_link_job()
+    public function test_store_link_job()
     {
         $this->markTestIncomplete();
     }
