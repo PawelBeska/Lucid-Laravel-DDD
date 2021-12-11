@@ -7,37 +7,36 @@ use Illuminate\Routing\ResponseFactory;
 use Lucid\Units\Job;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
-class RespondWithJsonJob extends Job
+class SuccessRespondWithJsonJob extends Job
 {
-    protected int $code;
-    protected mixed $data;
-
-    protected ?string $message;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(mixed $data = null, int $code = ResponseAlias::HTTP_OK, $message = null)
-    {
-        $this->data = $data;
-        $this->code = $code;
-        $this->message = $message;
-    }
+    public function __construct(
+        protected mixed   $data = null,
+        protected int     $code = ResponseAlias::HTTP_OK,
+        protected ?string $message = null,
+        protected ?array  $additionalData = [])
+    {}
 
     /**
      * Execute the job.
      *
+     * @param ResponseFactory $factory
      * @return JsonResponse
      */
-    public function handle(ResponseFactory $factory)
+    public function handle(ResponseFactory $factory): JsonResponse
     {
 
         return $factory->json([
             'message' => $this->message,
             'data' => $this->data,
+            'status' => "ok",
             'code' => $this->code,
+            ...$this->additionalData
         ]);
     }
 }

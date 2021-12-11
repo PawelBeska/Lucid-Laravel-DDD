@@ -2,10 +2,10 @@
 
 namespace App\Features;
 
-use App\Domains\Http\Jobs\RespondWithJsonJob;
+use App\Domains\Http\Jobs\FailedRespondWithJsonJob;
+use App\Domains\Http\Jobs\SuccessRespondWithJsonJob;
 use App\Domains\Link\Jobs\StoreLinkJob;
 use Illuminate\Http\Request;
-use Lucid\Units\Feature;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class StoreLinkFeature extends Feature
@@ -18,9 +18,13 @@ class StoreLinkFeature extends Feature
                 'title' => $request->input('title'),
                 'description' => $request->input('description'),
             ]);
-            return $this->run(new RespondWithJsonJob($link));
+            return $this->run(new SuccessRespondWithJsonJob($link));
         } catch (\Exception $e) {
-            return $this->run(new RespondWithJsonJob(null, ResponseAlias::HTTP_INTERNAL_SERVER_ERROR, __('messages.something went wrong')));
+            return $this->run(
+                new FailedRespondWithJsonJob(
+                    ResponseAlias::HTTP_INTERNAL_SERVER_ERROR,
+                    __('messages.something went wrong')
+                ));
         }
 
     }
